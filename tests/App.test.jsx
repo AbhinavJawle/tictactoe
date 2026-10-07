@@ -51,4 +51,16 @@ describe('App', () => {
     expect(screen.getByText('X hat gewonnen!')).toBeTruthy();
   });
 
+  it('TC-20: after a win, all 9 fields are disabled', async () => {
+    const user = userEvent.setup();
+    render(<App />);
+
+    await clickFields(user, X_WINS);
+
+    for (let n = 1; n <= 9; n++) {
+      expect(screen.getByLabelText(`Feld ${n}`).disabled).toBe(true);
+    }
+  });
+
+
 });
