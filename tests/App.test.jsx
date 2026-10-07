@@ -90,4 +90,16 @@ describe('App', () => {
     expect(screen.getByText('Punkte: X 1 | Remis 0 | O 0')).toBeTruthy();
   });
 
+  it('TC-24: "Neue Runde" in the middle of a game clears the board and X starts', async () => {
+    const user = userEvent.setup();
+    render(<App />);
+
+    await clickFields(user, [1, 2]);
+    await user.click(screen.getByText('Neue Runde'));
+
+    expect(screen.getByLabelText('Feld 1').textContent).toBe('');
+    expect(screen.getByLabelText('Feld 2').textContent).toBe('');
+    expect(screen.getByText('X ist am Zug')).toBeTruthy();
+  });
+
 });
