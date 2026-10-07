@@ -31,3 +31,12 @@ it('TC-09: symbols can be placed at index 0 and 8, but not at -1 and 9', () => {
   expect(makeMove(empty, 9, 'X')).toBe(empty);
   expect(empty).toEqual(['', '', '', '', '', '', '', '', '']);
 });
+
+it('TC-10: X fills a row (fields 1, 2, 3) and is detected as winner', () => {
+  // fields 1-3 (as labelled in the UI) = indices 0, 1, 2
+  const board = ['X', 'X', 'X', 'O', 'O', '', '', '', ''];
+
+  expect(getWinner(board)).toBe('X');
+  expect(isDraw(board)).toBe(false);
+  expect(isGameOver(board)).toBe(true);
+});
