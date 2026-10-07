@@ -13,3 +13,21 @@ it('TC-08: placing a symbol on an occupied field is rejected', () => {
   expect(result).toEqual(['X', '', '', '', '', '', '', '', '']);
   expect(result[0]).toBe('X');                            // original symbol kept
 });
+
+it('TC-09: symbols can be placed at index 0 and 8, but not at -1 and 9', () => {
+  const empty = createBoard();
+
+  // valid boundaries
+  const first = makeMove(empty, 0, 'X');
+  expect(first[0]).toBe('X');
+  expect(first).not.toBe(empty);
+
+  const last = makeMove(empty, 8, 'O');
+  expect(last[8]).toBe('O');
+  expect(last).not.toBe(empty);
+
+  // invalid indices: board is returned unchanged
+  expect(makeMove(empty, -1, 'X')).toBe(empty);
+  expect(makeMove(empty, 9, 'X')).toBe(empty);
+  expect(empty).toEqual(['', '', '', '', '', '', '', '', '']);
+});
