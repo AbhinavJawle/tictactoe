@@ -40,3 +40,12 @@ it('TC-10: X fills a row (fields 1, 2, 3) and is detected as winner', () => {
   expect(isDraw(board)).toBe(false);
   expect(isGameOver(board)).toBe(true);
 });
+
+it('TC-11: O fills a column (fields 2, 5, 8) and is detected as winner', () => {
+  // fields 2, 5, 8 (as labelled in the UI) = indices 1, 4, 7
+  const board = ['X', 'O', 'X', '', 'O', 'X', '', 'O', ''];
+
+  expect(getWinner(board)).toBe('O');
+  expect(isDraw(board)).toBe(false);
+  expect(isGameOver(board)).toBe(true);
+});
