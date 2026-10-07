@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import App from '../src/App.jsx';
+import userEvent from '@testing-library/user-event';
 
 describe('App', () => {
   it('TC-03: shows 9 empty, clickable fields and "X ist am Zug" at the start', () => {
@@ -15,8 +16,18 @@ describe('App', () => {
     expect(screen.getByText('X ist am Zug')).toBeTruthy();
   });
 
-  it('TC-05: Click fields 1, 2, 3', () => {
-   
+    it('TC-05: players take turns – clicking fields 1, 2, 3 places X, O, X', async () => {
+    const user = userEvent.setup();
+    render(<App />);
+
+    await user.click(screen.getByLabelText('Feld 1'));
+    await user.click(screen.getByLabelText('Feld 2'));
+    await user.click(screen.getByLabelText('Feld 3'));
+
+    expect(screen.getByLabelText('Feld 1').textContent).toBe('X');
+    expect(screen.getByLabelText('Feld 2').textContent).toBe('O');
+    expect(screen.getByLabelText('Feld 3').textContent).toBe('X');
+    expect(screen.getByText('O ist am Zug')).toBeTruthy();
   });
 
 });
