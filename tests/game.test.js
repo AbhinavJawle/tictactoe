@@ -63,3 +63,15 @@ it('TC-18: 8 of 9 fields filled and no winner is not yet over', () => {
   expect(isDraw(finished)).toBe(true);
   expect(isGameOver(finished)).toBe(true);
 });
+
+it('TC-19: placing a symbol after X has won is rejected', () => {
+  // X has won with the top row; O would otherwise be on turn
+  const board = ['X', 'X', 'X', 'O', 'O', '', '', '', ''];
+  expect(getWinner(board)).toBe('X');
+
+  const result = makeMove(board, 8, 'O');             // empty field, but game is over
+
+  expect(result).toBe(board);                         // same board returned
+  expect(result[8]).toBe('');                         // nothing was placed
+  expect(getWinner(result)).toBe('X');                // X is still the winner
+});
