@@ -74,5 +74,20 @@ describe('App', () => {
     expect(screen.getByText('Punkte: X 1 | Remis 1 | O 0')).toBeTruthy();
   });
 
+  it('TC-23: "Neue Runde" after a finished game clears the board and keeps the score', async () => {
+    const user = userEvent.setup();
+    render(<App />);
+
+    await clickFields(user, X_WINS);
+    await user.click(screen.getByText('Neue Runde'));
+
+    for (let n = 1; n <= 9; n++) {
+      const field = screen.getByLabelText(`Feld ${n}`);
+      expect(field.textContent).toBe('');
+      expect(field.disabled).toBe(false);
+    }
+    expect(screen.getByText('X ist am Zug')).toBeTruthy();
+    expect(screen.getByText('Punkte: X 1 | Remis 0 | O 0')).toBeTruthy();
+  });
 
 });
