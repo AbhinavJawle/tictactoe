@@ -102,4 +102,17 @@ describe('App', () => {
     expect(screen.getByText('X ist am Zug')).toBeTruthy();
   });
 
+  it('TC-25: "Punkte löschen" sets the score to 0 and clears the board', async () => {
+    const user = userEvent.setup();
+    render(<App />);
+
+    await clickFields(user, X_WINS);
+    expect(screen.getByText('Punkte: X 1 | Remis 0 | O 0')).toBeTruthy(); // score really went up first
+    await user.click(screen.getByText('Punkte löschen'));
+
+    expect(screen.getByText('Punkte: X 0 | Remis 0 | O 0')).toBeTruthy();
+    expect(screen.getByLabelText('Feld 1').textContent).toBe('');
+    expect(screen.getByText('X ist am Zug')).toBeTruthy();
+  });
+
 });
