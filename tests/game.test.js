@@ -49,3 +49,17 @@ it('TC-11: O fills a column (fields 2, 5, 8) and is detected as winner', () => {
   expect(isDraw(board)).toBe(false);
   expect(isGameOver(board)).toBe(true);
 });
+
+it('TC-18: 8 of 9 fields filled and no winner is not yet over', () => {
+  // 4 X, 4 O, field 9 (index 8) still empty
+  const board = ['X', 'O', 'X', 'X', 'O', 'O', 'O', 'X', ''];
+
+  expect(getWinner(board)).toBeNull();
+  expect(isDraw(board)).toBe(false);
+  expect(isGameOver(board)).toBe(false);
+
+  // the last move completes the draw
+  const finished = makeMove(board, 8, 'X');
+  expect(isDraw(finished)).toBe(true);
+  expect(isGameOver(finished)).toBe(true);
+});
