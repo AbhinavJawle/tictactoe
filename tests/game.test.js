@@ -74,4 +74,22 @@ it('TC-19: placing a symbol after X has won is rejected', () => {
   expect(result).toBe(board);                         // same board returned
   expect(result[8]).toBe('');                         // nothing was placed
   expect(getWinner(result)).toBe('X');                // X is still the winner
+it('TC-12a: detects a win on the top-left to bottom-right diagonal', () => {
+  const board = ['X', '', '', '', 'X', '', '', '', 'X'];
+  expect(getWinner(board)).toBe('X');
+});
+
+it('TC-12b: detects a win on the top-right to bottom-left diagonal', () => {
+  const board = ['', '', 'X', '', 'X', '', 'X', '', ''];
+  expect(getWinner(board)).toBe('X');
+});
+
+it('TC-13a: does not detect a win with only two matching symbols in a line', () => {
+  const board = ['X', 'X', '', '', '', '', '', '', ''];
+  expect(getWinner(board)).toBe(null);
+});
+
+it('TC-13b: does not detect a win when a full line has mixed symbols', () => {
+  const board = ['X', 'O', 'X', '', '', '', '', '', ''];
+  expect(getWinner(board)).toBe(null);
 });
