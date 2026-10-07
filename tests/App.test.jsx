@@ -62,5 +62,17 @@ describe('App', () => {
     }
   });
 
+  it('TC-22: the score counts a win and a draw', async () => {
+    const user = userEvent.setup();
+    render(<App />);
+
+    await clickFields(user, X_WINS);
+    await user.click(screen.getByText('Neue Runde'));
+    await clickFields(user, DRAW);
+
+    expect(screen.getByText('Unentschieden!')).toBeTruthy();
+    expect(screen.getByText('Punkte: X 1 | Remis 1 | O 0')).toBeTruthy();
+  });
+
 
 });
