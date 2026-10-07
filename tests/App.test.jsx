@@ -115,4 +115,17 @@ describe('App', () => {
     expect(screen.getByText('X ist am Zug')).toBeTruthy();
   });
 
+    it('TC-06: clicking an occupied field changes nothing and O keeps the turn', async () => {
+    const user = userEvent.setup();
+    render(<App />);
+
+    await clickFields(user, [5, 5]); // X takes field 5, then O tries field 5 too
+
+    expect(screen.getByLabelText('Feld 5').textContent).toBe('X');
+    expect(screen.getByText('O ist am Zug')).toBeTruthy();
+
+    await clickFields(user, [1]); // O's next click on a free field still works
+    expect(screen.getByLabelText('Feld 1').textContent).toBe('O');
+  });
+
 });
