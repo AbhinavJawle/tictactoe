@@ -44,3 +44,13 @@ it('TC-14: detects a win when X wins on the last free field', () => {
   expect(board).not.toContain('');
   expect(getWinner(board)).toBe('X');
 });
+
+it('TC-15a: returns the status text for a won game', () => {
+  const board = ['X', 'X', 'X', 'O', '', '', '', '', ''];
+  expect(getStatus(board, 'O')).toBe('X gewinnt!');
+});
+
+it('TC-15b: returns the status text for a running game', () => {
+  const board = ['X', 'O', '', '', 'X', '', '', '', ''];
+  expect(getStatus(board, 'O')).toBe('O ist am Zug');
+});
