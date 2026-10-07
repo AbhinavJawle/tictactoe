@@ -51,4 +51,68 @@ describe('App', () => {
     expect(screen.getByText('X hat gewonnen!')).toBeTruthy();
   });
 
+  it('TC-20: after a win, all 9 fields are disabled', async () => {
+    const user = userEvent.setup();
+    render(<App />);
+
+    await clickFields(user, X_WINS);
+
+    for (let n = 1; n <= 9; n++) {
+      expect(screen.getByLabelText(`Feld ${n}`).disabled).toBe(true);
+    }
+  });
+
+  it('TC-22: the score counts a win and a draw', async () => {
+    const user = userEvent.setup();
+    render(<App />);
+
+    await clickFields(user, X_WINS);
+    await user.click(screen.getByText('Neue Runde'));
+    await clickFields(user, DRAW);
+
+    expect(screen.getByText('Unentschieden!')).toBeTruthy();
+    expect(screen.getByText('Punkte: X 1 | Remis 1 | O 0')).toBeTruthy();
+  });
+
+  it('TC-23: "Neue Runde" after a finished game clears the board and keeps the score', async () => {
+    const user = userEvent.setup();
+    render(<App />);
+
+    await clickFields(user, X_WINS);
+    await user.click(screen.getByText('Neue Runde'));
+
+    for (let n = 1; n <= 9; n++) {
+      const field = screen.getByLabelText(`Feld ${n}`);
+      expect(field.textContent).toBe('');
+      expect(field.disabled).toBe(false);
+    }
+    expect(screen.getByText('X ist am Zug')).toBeTruthy();
+    expect(screen.getByText('Punkte: X 1 | Remis 0 | O 0')).toBeTruthy();
+  });
+
+  it('TC-24: "Neue Runde" in the middle of a game clears the board and X starts', async () => {
+    const user = userEvent.setup();
+    render(<App />);
+
+    await clickFields(user, [1, 2]);
+    await user.click(screen.getByText('Neue Runde'));
+
+    expect(screen.getByLabelText('Feld 1').textContent).toBe('');
+    expect(screen.getByLabelText('Feld 2').textContent).toBe('');
+    expect(screen.getByText('X ist am Zug')).toBeTruthy();
+  });
+
+  it('TC-25: "Punkte löschen" sets the score to 0 and clears the board', async () => {
+    const user = userEvent.setup();
+    render(<App />);
+
+    await clickFields(user, X_WINS);
+    expect(screen.getByText('Punkte: X 1 | Remis 0 | O 0')).toBeTruthy(); // score really went up first
+    await user.click(screen.getByText('Punkte löschen'));
+
+    expect(screen.getByText('Punkte: X 0 | Remis 0 | O 0')).toBeTruthy();
+    expect(screen.getByLabelText('Feld 1').textContent).toBe('');
+    expect(screen.getByText('X ist am Zug')).toBeTruthy();
+  });
+
 });
