@@ -4,9 +4,10 @@ import react from '@vitejs/plugin-react';
 export default defineConfig({
   plugins: [react()],
   test: {
-    
+    globals: true,
     environment: 'jsdom',
     coverage: {
+      reportOnFailure: true,
       provider: 'v8',
       // Nur die Spielregeln zählen für die 80 %. Die Oberfläche (App.jsx) wird von Hand im Browser getestet.
       include: ['src/**/*.{js,jsx}'], exclude: ['src/main.jsx'],

@@ -5,6 +5,7 @@ it('TC-02: createBoard returns an empty board', () => {
   const board = createBoard();
   expect(board).toEqual(['', '', '', '', '', '', '', '', '']);
 });
+
 it('TC-08: placing a symbol on an occupied field is rejected', () => {
   const board = makeMove(createBoard(), 0, 'X');          // X occupies field 0
   const result = makeMove(board, 0, 'O');                 // O tries the same field
@@ -74,6 +75,8 @@ it('TC-19: placing a symbol after X has won is rejected', () => {
   expect(result).toBe(board);                         // same board returned
   expect(result[8]).toBe('');                         // nothing was placed
   expect(getWinner(result)).toBe('X');                // X is still the winner
+});
+
 it('TC-12a: detects a win on the top-left to bottom-right diagonal', () => {
   const board = ['X', '', '', '', 'X', '', '', '', 'X'];
   expect(getWinner(board)).toBe('X');

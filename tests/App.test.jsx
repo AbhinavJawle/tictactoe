@@ -3,6 +3,16 @@ import { render, screen } from '@testing-library/react';
 import App from '../src/App.jsx';
 import userEvent from '@testing-library/user-event';
 
+async function clickFields(user, fields) {
+  for (const n of fields) {
+    await user.click(screen.getByLabelText(`Feld ${n}`));
+  }
+}
+
+const X_WINS = [1, 4, 2, 5, 3]; 
+const DRAW = [1, 2, 3, 5, 4, 6, 8, 7, 9]; 
+
+
 describe('App', () => {
   it('TC-03: shows 9 empty, clickable fields and "X ist am Zug" at the start', () => {
     render(<App />);
@@ -48,7 +58,7 @@ describe('App', () => {
 
 
     // check that the winner text is shown
-    expect(screen.getByText('X hat gewonnen!')).toBeTruthy();
+    expect(screen.getByText('X gewinnt!')).toBeTruthy();
   });
 
   it('TC-20: after a win, all 9 fields are disabled', async () => {
